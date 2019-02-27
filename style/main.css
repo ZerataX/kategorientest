@@ -3,13 +3,6 @@ pre {
   overflow: auto;
 }
 
-pre > code {
-  border-radius: 2px;
-  background-color: #f3f3f3;
-  padding: 8px 10px;
-  text-shadow: 0 1px 0 #fff;
-}
-
 pre > code.highlight {
   outline: .4em solid red;
   outline-offset: .4em;
@@ -40,4 +33,4 @@ pre > code.highlight {
 .highlight .nt {
   color: #000080;
 }
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=main.css.map */

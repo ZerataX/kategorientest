@@ -12,9 +12,9 @@ export function addKategorien (kategorie) {
   let title = a.querySelector('h3')
   let sub = a.querySelector('h4')
   title.innerHTML = kategorie.name
-  for (let item of kategorie.unterkategorie) {
+  kategorie.unterkategorie.forEach(item => {
     sub.appendChild(addKategorien(item))
-  }
+  })
   return a
 }
 

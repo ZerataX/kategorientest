@@ -3,9 +3,6 @@ import Gericht from './model/gericht.js'
 import Kategorie from './model/kategorie.js'
 import { getObersteKategorie, addKategorien, syntaxHighlight } from './controller.js'
 
-let test = new Gericht('hello world')
-console.log(test.toString())
-
 // Kategorien
 let indisch = new Kategorie('Indisch')
 let vegan = new Kategorie('Vegan')
@@ -28,15 +25,34 @@ suppe.oberkategorie = vegan
 
 // Gerichte
 let gericht1 = new Gericht('Gericht1')
-gericht1.kategorie.add()
+gericht1.addKategorie(vegan)
+gericht1.addKategorie(suppe)
 let gericht2 = new Gericht('Gericht2')
+gericht2.addKategorie(pizza)
 let gericht3 = new Gericht('Gericht3')
+gericht3.addKategorie(veganepizza)
+gericht3.addKategorie(familienpizza)
 let gericht4 = new Gericht('Gericht4')
+gericht4.addKategorie(suppe)
+
+let gerichte = [
+  gericht1,
+  gericht2,
+  gericht3,
+  gericht4,
+]
 
 let oberste = getObersteKategorie(suppe)
 let kategorienDIV = document.getElementById('kategorien')
 kategorienDIV.appendChild(addKategorien(oberste))
 
 let jsonDIV = document.getElementById('json')
-let exampleJSON = '{"glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}}'
-jsonDIV.innerHTML = syntaxHighlight(exampleJSON)
+let JSON = {
+  'kategorien': oberste.getJSON(),
+  'gerichte': []
+}
+
+gerichte.forEach(gericht => {
+  JSON.gerichte.push(gericht.getJSON())
+})
+jsonDIV.innerHTML = syntaxHighlight(JSON)

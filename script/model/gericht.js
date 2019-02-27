@@ -1,17 +1,30 @@
 class Gericht {
   constructor (name) {
     this._name = name
-    this._kategorie = new Set()
+    this._kategorien = new Set()
   }
 
-  get kategorie () { return this._kategorie }
-  set kategorie (kategorie) { this._kategorie = kategorie }
+  get kategorien () { return this._kategorien }
+  set kategorien (kategorien) { this._kategorien = kategorien }
+
+  addKategorie (kategorie) {
+    this._kategorien.add(kategorie)
+  }
+  removeKategorie (kategorie) {
+    this._kategorien.delete(kategorie)
+  }
 
   get name () { return this._name }
   set name (name) { this._name = name }
 
-  toString () {
-    return this._name
+  getJSON () {
+    let JSON = {}
+    JSON.name = this._name
+    JSON.kategorien = []
+    this._kategorien.forEach(kategorie => {
+      JSON.kategorien.push(kategorie.name)
+    })
+    return JSON
   }
 }
 

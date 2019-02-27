@@ -20,6 +20,17 @@ class Kategorie {
 
   get unterkategorie () { return this._unterkategorie }
   set unterkategorie (kategorie) { this._unterkategorie = kategorie }
+
+  getJSON () {
+    let JSON = {}
+    JSON.name = this._name
+    // JSON.oberkategorie = (this._oberkategorie) ? this._oberkategorie.name : null
+    JSON.unterkategorie = []
+    this._unterkategorie.forEach(kategorie => {
+      JSON.unterkategorie.push(kategorie.getJSON())
+    })
+    return JSON
+  }
 }
 
 export default Kategorie
