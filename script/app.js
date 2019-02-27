@@ -1,7 +1,7 @@
 'use strict'
 import Gericht from './model/gericht.js'
 import Kategorie from './model/kategorie.js'
-import { getObersteKategorie, addKategorien } from './controller.js'
+import { getObersteKategorie, addKategorien, syntaxHighlight } from './controller.js'
 
 let test = new Gericht('hello world')
 console.log(test.toString())
@@ -36,3 +36,7 @@ let gericht4 = new Gericht('Gericht4')
 let oberste = getObersteKategorie(suppe)
 let kategorienDIV = document.getElementById('kategorien')
 kategorienDIV.appendChild(addKategorien(oberste))
+
+let jsonDIV = document.getElementById('json')
+let exampleJSON = '{"glossary":{"title":"example glossary","GlossDiv":{"title":"S","GlossList":{"GlossEntry":{"ID":"SGML","SortAs":"SGML","GlossTerm":"Standard Generalized Markup Language","Acronym":"SGML","Abbrev":"ISO 8879:1986","GlossDef":{"para":"A meta-markup language, used to create markup languages such as DocBook.","GlossSeeAlso":["GML","XML"]},"GlossSee":"markup"}}}}}'
+jsonDIV.innerHTML = syntaxHighlight(exampleJSON)

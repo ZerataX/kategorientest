@@ -1,4 +1,43 @@
+pre {
+  max-height: 30em;
+  overflow: auto;
+}
+
+pre > code {
+  border-radius: 2px;
+  background-color: #f3f3f3;
+  padding: 8px 10px;
+  text-shadow: 0 1px 0 #fff;
+}
+
+pre > code.highlight {
+  outline: .4em solid red;
+  outline-offset: .4em;
+}
+
+.kategorie {
+  border-style: outset;
+}
+
 .kcontent-sub {
   margin-left: 2em;
+}
+
+.highlight .err {
+  color: #a61717;
+  background-color: #e3d2d2;
+}
+
+.highlight .kc {
+  color: #000000;
+  font-weight: bold;
+}
+
+.highlight .s2 {
+  color: #d14;
+}
+
+.highlight .nt {
+  color: #000080;
 }
 /*# sourceMappingURL=style.css.map */
