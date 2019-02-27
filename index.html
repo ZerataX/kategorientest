@@ -4,9 +4,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kategorien</title>
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="script/app.js"></script>
 </head>
 <body>
-    <h1>Gerichte in Kategorien</h1>
+    <!-- TEMPLATES -->
+    <template>
+        <div class="kategorie">
+            <h3>Asiatisch:</h3>
+            <div class="kcontent">
+                <div class="kcontent-sub">
+                    <h4>Unterkategorien:</h4>
+                    <div class="kategorie"></div>
+                </div>
+                <div class="kcontent-items">
+                    <h4>Gerichte:</h4>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </template>
+    <template>
+        <div class="gericht">
+            <h5>Pizza</h5>
+            <div class="description">
+                <article>
+                    <p>$5</p>
+                    <p>Sehr lecker!</p>
+                </article>
+            </div>
+        </div>
+    </template>
+    <!-- MAIN -->
+    <head>
+        <h1>Gerichte in Kategorien</h1>
+    </head>
+    <main>
+      <h2>Kategorien:</h2>
+      <div id="kategorien">
+      </div>
+    </main>
+    <footer>
+        <h2>JSON</h2>
+        <pre><code></code></pre>
+    </footer>
 </body>
 </html>

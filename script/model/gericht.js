@@ -1,7 +1,7 @@
 class Gericht {
   constructor (name) {
     this._name = name
-    this._kategorie = []
+    this._kategorie = new Set()
   }
 
   get kategorie () { return this._kategorie }
