@@ -12,17 +12,34 @@ class Kategorie {
 
   get oberkategorie () { return this._oberkategorie }
   set oberkategorie (kategorie) {
+    if (kategorie == null) {
+      Error('Oberkategorie darf nicht als null gesetzt werden')
+    }
+    if (this.hasKategorie(kategorie) {
+      Error('Oberkategorie darf nicht eine der Unterkategorien sein')
+    }
+    if (this == kategorie) {
+      Error('Oberkategorie darf nicht die Kategorie selbst sein')
+    }
+
     if (this._oberkategorie) {
       this._oberkategorie._unterkategorie.delete(this)
     }
+    kategorie._unterkategorie.add(this)
     this._oberkategorie = kategorie
-    if (kategorie) {
-      kategorie._unterkategorie.add(this)
-    }
   }
 
   get unterkategorie () { return this._unterkategorie }
   // set unterkategorie (kategorie) { this._unterkategorie = kategorie }
+  
+  hasKategorie(kategorie) {
+    if (this._unterkategorien.has(kategorie)) { 
+			return true
+		}
+    this._unterkategorien.forEach(unterkategorie => {
+      return unterkategorie.hasKategorie(kategorie)
+    })
+  }
 
   get gerichte () { return this._gerichte }
   set gerichte (gerichte) { this._gericht = gerichte }
@@ -42,6 +59,7 @@ class Kategorie {
   delete () {
     if (this._oberkategorie) {
       this._oberkategorie._unterkategorie.delete(this)
+      this._oberkategorie = null
     }
     this._unterkategorie.forEach(kategorie => {
       return kategorie.delete()
