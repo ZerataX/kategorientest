@@ -73,8 +73,8 @@ function addKategorien (kategorie) {
     drawKategorien(obersteKategorie)
   }
   speicher.kategorien.forEach(neueKategorie => {
-    if (neueKategorie != kategorie) {
-      // wahrscheinlich "&& neueKategorie != kategorie.oberkategorie"
+    if (neueKategorie != kategorie && neueKategorie != kategorie.oberkategorie) {
+      // geht ohne "&& neueKategorie != kategorie.oberkategorie", aber dann eigenständige chains
       // neueKategorie darf kein kind von kategorie sein
       let div = CHECKBOX.content.querySelector('label')
       let a = document.importNode(div, true)
