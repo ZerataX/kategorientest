@@ -3,6 +3,7 @@ class Kategorie {
     this._name = name
     this._unterkategorie = new Set()
     this._oberkategorie = null
+    this._gerichte = new Set()
     // this._oberkategorie = oberkategorie || false
   }
 
@@ -19,7 +20,31 @@ class Kategorie {
   }
 
   get unterkategorie () { return this._unterkategorie }
-  set unterkategorie (kategorie) { this._unterkategorie = kategorie }
+  // set unterkategorie (kategorie) { this._unterkategorie = kategorie }
+
+  get gerichte () { return this._gerichte }
+  set gerichte (gerichte) { this._gericht = gerichte }
+
+  hasGericht (gericht) {
+    return this._gerichte.has(gericht)
+  }
+
+  addGericht (gericht) {
+    this._gerichte.add(gericht)
+  }
+
+  removeGericht (gericht) {
+    this._gerichte.delete(gericht)
+  }
+
+  delete () {
+    if (this._oberkategorie) {
+      this._oberkategorie._unterkategorie.delete(this)
+    }
+    this._unterkategorie.forEach(kategorie => {
+      kategorie.delete()
+    })
+  }
 
   getJSON () {
     let JSON = {}
@@ -28,6 +53,10 @@ class Kategorie {
     JSON.unterkategorie = []
     this._unterkategorie.forEach(kategorie => {
       JSON.unterkategorie.push(kategorie.getJSON())
+    })
+    JSON.gerichte = []
+    this._gerichte.forEach(gericht => {
+      JSON.gerichte.push(gericht.getJSON())
     })
     return JSON
   }

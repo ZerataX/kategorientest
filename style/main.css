@@ -16,6 +16,14 @@ pre > code.highlight {
   margin-left: 2em;
 }
 
+.kcontent-items {
+  margin-left: 1em;
+}
+
+.gericht {
+  border-style: dotted;
+}
+
 .highlight .err {
   color: #a61717;
   background-color: #e3d2d2;

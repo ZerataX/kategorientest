@@ -1,7 +1,95 @@
 'use strict'
 import Gericht from './model/gericht.js'
 import Kategorie from './model/kategorie.js'
-import { getObersteKategorie, addKategorien, syntaxHighlight } from './controller.js'
+import Speicher from './model/speicher.js'
+import { getObersteKategorie, deleteKategorie, syntaxHighlight, gerichtAddKategorie, deleteGericht } from './controller.js'
+
+const KATEGORIE_TMPL = document.getElementsByTagName('template')[0]
+const GERICHT_TMPL = document.getElementsByTagName('template')[1]
+const CHECKBOX = document.getElementsByTagName('template')[2]
+
+function drawKategorien (obersteKategorie) {
+  let kategorienDIV = document.getElementById('kategorien')
+  let jsonDIV = document.getElementById('json')
+
+  while (kategorienDIV.firstChild) {
+    kategorienDIV.removeChild(kategorienDIV.firstChild)
+  }
+  kategorienDIV.appendChild(addKategorien(obersteKategorie))
+  drawJSON(jsonDIV, obersteKategorie)
+}
+
+function addGericht (gericht) {
+  let div = GERICHT_TMPL.content.querySelector('div')
+  let a = document.importNode(div, true)
+  let title = a.querySelector('h5')
+  let deleteBTN = a.querySelector('button')
+  let fieldset = a.querySelector('fieldset')
+
+  deleteBTN.onclick = function () {
+    deleteGericht(gericht, speicher.kategorien)
+    let obersteKategorie = getObersteKategorie(speicher.kategorien[0])
+    drawKategorien(obersteKategorie)
+  }
+
+  speicher.kategorien.forEach(kategorie => {
+    let div = CHECKBOX.content.querySelector('label')
+    let a = document.importNode(div, true)
+    let input = a.querySelector('input')
+
+    input.value = kategorie.name
+    input.setAttribute('title', kategorie.name)
+    input.checked = kategorie.hasGericht(gericht)
+
+    input.onchange = function () {
+      console.log(input.checked)
+      if (input.checked) {
+        kategorie.addGericht(gericht)
+      } else {
+        kategorie.removeGericht(gericht)
+      }
+      let obersteKategorie = getObersteKategorie(kategorie)
+      drawKategorien(obersteKategorie)
+    }
+    fieldset.appendChild(a)
+  })
+  title.innerHTML = gericht.name
+  return a
+}
+
+function addKategorien (kategorie) {
+  let div = KATEGORIE_TMPL.content.querySelector('div')
+  let a = document.importNode(div, true)
+  let title = a.querySelector('h3')
+  let sub = a.querySelector('h4')
+  let items = a.getElementsByTagName('h4')[1]
+  let deleteBTN = a.querySelector('button')
+
+  title.innerHTML = kategorie.name
+  deleteBTN.onclick = function () {
+    let obersteKategorie = getObersteKategorie(kategorie)
+    deleteKategorie(kategorie)
+    drawKategorien(obersteKategorie)
+  }
+  kategorie.unterkategorie.forEach(item => {
+    sub.appendChild(addKategorien(item))
+  })
+  kategorie.gerichte.forEach(item => {
+    items.appendChild(addGericht(item))
+  })
+  return a
+}
+
+function drawJSON (DIV, obersteKategorie) {
+  let JSON = {
+    'kategorien': obersteKategorie.getJSON(),
+    'version': 0.1
+  }
+  // speicher.gerichte.forEach(gericht => {
+  //   JSON.gerichte.push(gericht.getJSON())
+  // })
+  DIV.innerHTML = syntaxHighlight(JSON)
+}
 
 // Kategorien
 let indisch = new Kategorie('Indisch')
@@ -16,6 +104,15 @@ familienpizza.oberkategorie = pizza
 let suppe = new Kategorie('Suppe')
 suppe.oberkategorie = vegan
 
+let kategorien = [
+  indisch,
+  vegan,
+  pizza,
+  veganepizza,
+  familienpizza,
+  suppe
+]
+
 // console.log('suppe ober: ' + suppe.oberkategorie.name)
 // console.log(vegan)
 // for (let item of vegan.unterkategorie) console.log('vegan unter: ' + item.name)
@@ -24,35 +121,27 @@ suppe.oberkategorie = vegan
 // for (let item of vegan.unterkategorie) console.log('vegan unter: ' + item.name)
 
 // Gerichte
-let gericht1 = new Gericht('Gericht1')
-gericht1.addKategorie(vegan)
-gericht1.addKategorie(suppe)
-let gericht2 = new Gericht('Gericht2')
-gericht2.addKategorie(pizza)
-let gericht3 = new Gericht('Gericht3')
-gericht3.addKategorie(veganepizza)
-gericht3.addKategorie(familienpizza)
-let gericht4 = new Gericht('Gericht4')
-gericht4.addKategorie(suppe)
+let gericht1 = new Gericht('Nudeln')
+gerichtAddKategorie(gericht1, vegan)
+gerichtAddKategorie(gericht1, suppe)
+let gericht2 = new Gericht('Hamburger')
+gerichtAddKategorie(gericht2, pizza)
+let gericht3 = new Gericht('Burger')
+gerichtAddKategorie(gericht3, veganepizza)
+gerichtAddKategorie(gericht3, familienpizza)
+let gericht4 = new Gericht('Chips')
+gerichtAddKategorie(gericht4, suppe)
 
 let gerichte = [
   gericht1,
   gericht2,
   gericht3,
-  gericht4,
+  gericht4
 ]
 
-let oberste = getObersteKategorie(suppe)
-let kategorienDIV = document.getElementById('kategorien')
-kategorienDIV.appendChild(addKategorien(oberste))
+var speicher = new Speicher()
+speicher.gerichte = gerichte
+speicher.kategorien = kategorien
 
-let jsonDIV = document.getElementById('json')
-let JSON = {
-  'kategorien': oberste.getJSON(),
-  'gerichte': []
-}
-
-gerichte.forEach(gericht => {
-  JSON.gerichte.push(gericht.getJSON())
-})
-jsonDIV.innerHTML = syntaxHighlight(JSON)
+let obersteKategorie = getObersteKategorie(speicher.kategorien[0])
+drawKategorien(obersteKategorie)

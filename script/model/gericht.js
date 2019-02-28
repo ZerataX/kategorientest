@@ -4,15 +4,15 @@ class Gericht {
     this._kategorien = new Set()
   }
 
-  get kategorien () { return this._kategorien }
-  set kategorien (kategorien) { this._kategorien = kategorien }
+  // get kategorien () { return this._kategorien }
+  // set kategorien (kategorien) { this._kategorien = kategorien }
 
-  addKategorie (kategorie) {
-    this._kategorien.add(kategorie)
-  }
-  removeKategorie (kategorie) {
-    this._kategorien.delete(kategorie)
-  }
+  // addKategorie (kategorie) {
+  //   this._kategorien.add(kategorie)
+  // }
+  // removeKategorie (kategorie) {
+  //   this._kategorien.delete(kategorie)
+  // }
 
   get name () { return this._name }
   set name (name) { this._name = name }
@@ -20,10 +20,10 @@ class Gericht {
   getJSON () {
     let JSON = {}
     JSON.name = this._name
-    JSON.kategorien = []
-    this._kategorien.forEach(kategorie => {
-      JSON.kategorien.push(kategorie.name)
-    })
+    // JSON.kategorien = []
+    // this._kategorien.forEach(kategorie => {
+    //   JSON.kategorien.push(kategorie.name)
+    // })
     return JSON
   }
 }
