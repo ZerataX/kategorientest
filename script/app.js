@@ -83,11 +83,12 @@ function addKategorien (kategorie) {
 function drawJSON (DIV, obersteKategorie) {
   let JSON = {
     'kategorien': obersteKategorie.getJSON(),
+    'gerichte': [],
     'version': 0.1
   }
-  // speicher.gerichte.forEach(gericht => {
-  //   JSON.gerichte.push(gericht.getJSON())
-  // })
+  speicher.gerichte.forEach(gericht => {
+    JSON.gerichte.push(gericht.getJSON())
+  })
   DIV.innerHTML = syntaxHighlight(JSON)
 }
 
