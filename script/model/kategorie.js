@@ -15,7 +15,7 @@ class Kategorie {
     if (kategorie == null) {
       Error('Oberkategorie darf nicht als null gesetzt werden')
     }
-    if (this.hasKategorie(kategorie) {
+    if (this.hasKategorie(kategorie)) {
       Error('Oberkategorie darf nicht eine der Unterkategorien sein')
     }
     if (this == kategorie) {
