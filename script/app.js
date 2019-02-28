@@ -7,6 +7,7 @@ import { getObersteKategorie, deleteKategorie, syntaxHighlight, gerichtAddKatego
 const KATEGORIE_TMPL = document.getElementsByTagName('template')[0]
 const GERICHT_TMPL = document.getElementsByTagName('template')[1]
 const CHECKBOX = document.getElementsByTagName('template')[2]
+const RADIOBOX = document.getElementsByTagName('template')[3]
 
 function drawKategorien (obersteKategorie) {
   let kategorienDIV = document.getElementById('kategorien')
@@ -76,7 +77,7 @@ function addKategorien (kategorie) {
     if (neueKategorie != kategorie && neueKategorie != kategorie.oberkategorie) {
       // geht ohne "&& neueKategorie != kategorie.oberkategorie", aber dann eigenständige chains
       // neueKategorie darf kein kind von kategorie sein
-      let div = CHECKBOX.content.querySelector('label')
+      let div = RADIOBOX.content.querySelector('label')
       let a = document.importNode(div, true)
       let input = a.querySelector('input')
 
