@@ -16,7 +16,9 @@ class Kategorie {
       this._oberkategorie._unterkategorie.delete(this)
     }
     this._oberkategorie = kategorie
-    kategorie._unterkategorie.add(this)
+    if (kategorie) {
+      kategorie._unterkategorie.add(this)
+    }
   }
 
   get unterkategorie () { return this._unterkategorie }
@@ -42,7 +44,7 @@ class Kategorie {
       this._oberkategorie._unterkategorie.delete(this)
     }
     this._unterkategorie.forEach(kategorie => {
-      kategorie.delete()
+      return kategorie.delete()
     })
   }
 

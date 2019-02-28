@@ -28,7 +28,7 @@ function addGericht (gericht) {
 
   deleteBTN.onclick = function () {
     deleteGericht(gericht, speicher.kategorien)
-    let obersteKategorie = getObersteKategorie(speicher.kategorien[0])
+    let obersteKategorie = getObersteKategorie(speicher.firstKategorie())
     drawKategorien(obersteKategorie)
   }
 
@@ -42,7 +42,6 @@ function addGericht (gericht) {
     input.checked = kategorie.hasGericht(gericht)
 
     input.onchange = function () {
-      console.log(input.checked)
       if (input.checked) {
         kategorie.addGericht(gericht)
       } else {
@@ -64,13 +63,39 @@ function addKategorien (kategorie) {
   let sub = a.querySelector('h4')
   let items = a.getElementsByTagName('h4')[1]
   let deleteBTN = a.querySelector('button')
+  let fieldset = a.querySelector('fieldset')
 
   title.innerHTML = kategorie.name
   deleteBTN.onclick = function () {
     let obersteKategorie = getObersteKategorie(kategorie)
     deleteKategorie(kategorie)
+    // speicher.removeKategorie(kategorie) - alle unterkategorien müssen auch gelöscht werden
     drawKategorien(obersteKategorie)
   }
+  speicher.kategorien.forEach(neueKategorie => {
+    if (neueKategorie != kategorie) {
+      // wahrscheinlich "&& neueKategorie != kategorie.oberkategorie"
+      // neueKategorie darf kein kind von kategorie sein
+      let div = CHECKBOX.content.querySelector('label')
+      let a = document.importNode(div, true)
+      let input = a.querySelector('input')
+
+      input.value = neueKategorie.name
+      input.setAttribute('title', neueKategorie.name)
+      input.checked = (neueKategorie == kategorie.oberkategorie)
+
+      input.onchange = function () {
+        if (input.checked) {
+          kategorie.oberkategorie = neueKategorie
+        } else {
+          kategorie.oberkategorie = null // what would this mean??
+        }
+        let obersteKategorie = getObersteKategorie(kategorie)
+        drawKategorien(obersteKategorie)
+      }
+      fieldset.appendChild(a)
+    }
+  })
   kategorie.unterkategorie.forEach(item => {
     sub.appendChild(addKategorien(item))
   })
@@ -143,6 +168,6 @@ let gerichte = [
 var speicher = new Speicher()
 speicher.gerichte = gerichte
 speicher.kategorien = kategorien
-
-let obersteKategorie = getObersteKategorie(speicher.kategorien[0])
+console.log(speicher.firstKategorie())
+let obersteKategorie = getObersteKategorie(speicher.firstKategorie())
 drawKategorien(obersteKategorie)
