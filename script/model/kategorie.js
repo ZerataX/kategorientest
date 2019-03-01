@@ -1,7 +1,7 @@
 class Kategorie {
   constructor (name) {
     this._name = name
-    this._unterkategorie = new Set()
+    this._unterkategorien = new Set()
     this._oberkategorie = null
     this._gerichte = new Set()
     // this._oberkategorie = oberkategorie || false
@@ -23,21 +23,21 @@ class Kategorie {
     }
 
     if (this._oberkategorie) {
-      this._oberkategorie._unterkategorie.delete(this)
+      this._oberkategorie._unterkategorien.delete(this)
     }
-    kategorie._unterkategorie.add(this)
+    kategorie._unterkategorien.add(this)
     this._oberkategorie = kategorie
   }
 
-  get unterkategorie () { return this._unterkategorie }
-  // set unterkategorie (kategorie) { this._unterkategorie = kategorie }
+  get unterkategorien () { return this._unterkategorien }
+  // set unterkategorien (kategorie) { this._unterkategorien = kategorie }
   
   hasKategorie(kategorie) {
     if (this._unterkategorien.has(kategorie)) { 
 			return true
 		}
-    this._unterkategorien.forEach(unterkategorie => {
-      return unterkategorie.hasKategorie(kategorie)
+    this._unterkategorien.forEach(unterkategorien => {
+      return unterkategorien.hasKategorie(kategorie)
     })
   }
 
@@ -58,10 +58,10 @@ class Kategorie {
 
   delete () {
     if (this._oberkategorie) {
-      this._oberkategorie._unterkategorie.delete(this)
+      this._oberkategorie._unterkategorien.delete(this)
       this._oberkategorie = null
     }
-    this._unterkategorie.forEach(kategorie => {
+    this._unterkategorien.forEach(kategorie => {
       return kategorie.delete()
     })
   }
@@ -70,9 +70,9 @@ class Kategorie {
     let JSON = {}
     JSON.name = this._name
     // JSON.oberkategorie = (this._oberkategorie) ? this._oberkategorie.name : null
-    JSON.unterkategorie = []
-    this._unterkategorie.forEach(kategorie => {
-      JSON.unterkategorie.push(kategorie.getJSON())
+    JSON.unterkategorien = []
+    this._unterkategorien.forEach(kategorie => {
+      JSON.unterkategorien.push(kategorie.getJSON())
     })
     JSON.gerichte = []
     this._gerichte.forEach(gericht => {
