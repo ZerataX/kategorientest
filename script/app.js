@@ -97,7 +97,7 @@ function addKategorien (kategorie) {
       fieldset.appendChild(a)
     }
   })
-  kategorie.unterkategorie.forEach(item => {
+  kategorie.unterkategorien.forEach(item => {
     sub.appendChild(addKategorien(item))
   })
   kategorie.gerichte.forEach(item => {
@@ -142,10 +142,10 @@ let kategorien = [
 
 // console.log('suppe ober: ' + suppe.oberkategorie.name)
 // console.log(vegan)
-// for (let item of vegan.unterkategorie) console.log('vegan unter: ' + item.name)
+// for (let item of vegan.unterkategorien) console.log('vegan unter: ' + item.name)
 // suppe.oberkategorie = indisch
 // console.log('suppe ober: ' + suppe.oberkategorie.name)
-// for (let item of vegan.unterkategorie) console.log('vegan unter: ' + item.name)
+// for (let item of vegan.unterkategorien) console.log('vegan unter: ' + item.name)
 
 // Gerichte
 let gericht1 = new Gericht('Nudeln')
